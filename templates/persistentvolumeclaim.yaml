@@ -1,0 +1,21 @@
+{{- if .Values.persistence.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "helm-chart-celery-flower.fullname" . }}
+  labels:
+    {{- include "helm-chart-celery-flower.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    {{- toYaml .Values.persistence.accessModes | nindent 4 }}
+  volumeMode: {{ .Values.persistence.volumeMode }}
+  resources:
+    {{- toYaml .Values.persistence.resources | nindent 4 }}
+  {{- if .Values.persistence.storageClassName }}
+  storageClassName: {{ .Values.persistence.storageClassName }}
+  {{- end }}
+  {{- if .Values.persistence.selector }}
+  selector:
+    {{- toYaml .Values.persistence.selector | nindent 4 }}
+  {{- end  }}
+{{- end -}}

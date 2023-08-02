@@ -1,0 +1,64 @@
+---
+replicaCount: 1
+
+image:
+  repository: mher/flower
+  pullPolicy: IfNotPresent
+  tag: latest
+
+config:
+  brokerUrl: amqp://guest:guest@rabbitmq:5672/
+  persistance_folder: "/srv/persistance"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+resources: {}
+
+persistence:
+  enabled: true
+  volumeMode: Filesystem
+  storageClassName: efs-sc
+  resources:
+    requests:
+      storage: 8Gi
+  accessModes:
+    - ReadWriteMany
+  selector: {}
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
